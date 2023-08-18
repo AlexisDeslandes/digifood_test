@@ -11,7 +11,6 @@ class Product with _$Product {
     required String name,
     required double price,
     required String category,
-    required String imagePath,
     String? description,
   }) = _Product;
 

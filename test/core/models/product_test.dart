@@ -1,16 +1,12 @@
 import 'package:digifood_test/core/models/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../test_constants.dart';
+
 void main() {
   group('Product', () {
-    const product = Product(
-      name: 'Pizza',
-      price: 10,
-      category: 'Food',
-      imagePath: '/path/to/image',
-    );
     test('2 products should be equals with the same fields.', () {
-      expect(product == product.copyWith(), true);
+      expect(pizza == pizza.copyWith(), true);
     });
 
     test(
@@ -22,7 +18,7 @@ void main() {
         'category': 'Food',
         'imagePath': '/path/to/image',
       };
-      expect(Product.fromJson(json), product);
+      expect(Product.fromJson(json), pizza);
     });
   });
 }
