@@ -1,5 +1,11 @@
 # digifood_test
 
+## Installation
+```
+flutter pub get
+flutter pub run build_runner build
+```
+
 ## Test conditions
 Mobile device: Pixel 4
 Tablet device: 10.1 WXGA (Tablet)

@@ -12,13 +12,13 @@ class CartMock extends AutoDisposeNotifier<Map<String, int>>
     implements Cart {}
 
 void main() {
-  group('PurchasableProductWidget', () {
+  group('PurchasableProductWidgetSkeleton', () {
     testWidgets('Tap on add icon should call cart.addProduct(pizza).',
         (tester) async {
       final cart = CartMock();
       await tester.pumpApp(
         overrides: [cartProvider.overrideWith(() => cart)],
-        const PurchasableProductWidget(
+        const PurchasableProductWidgetSkeleton(
           product: pizza,
           quantity: 0,
         ),
@@ -35,7 +35,7 @@ void main() {
         final cart = CartMock();
         await tester.pumpApp(
           overrides: [cartProvider.overrideWith(() => cart)],
-          const PurchasableProductWidget(
+          const PurchasableProductWidgetSkeleton(
             product: pizza,
             quantity: 1,
           ),
@@ -51,7 +51,7 @@ void main() {
         final cart = CartMock();
         await tester.pumpApp(
           overrides: [cartProvider.overrideWith(() => cart)],
-          const PurchasableProductWidget(
+          const PurchasableProductWidgetSkeleton(
             product: pizza,
             quantity: 0,
           ),
@@ -60,6 +60,18 @@ void main() {
         await tester.tap(find.byIcon(Icons.remove));
         verifyNever(cart.reduceProduct('Pizza'));
       });
+    });
+  });
+
+  group('PurchasableProductWidget', () {
+    testWidgets('Tap on add icon should change text from 0 to 1.',
+        (tester) async {
+      await tester.pumpApp(const PurchasableProductWidget(product: pizza));
+      await tester.pumpAndSettle();
+      expect(find.text('0'), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pump();
+      expect(find.text('1'), findsOneWidget);
     });
   });
 }

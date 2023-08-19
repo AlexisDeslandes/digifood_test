@@ -6,15 +6,13 @@ extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
     NavigatorObserver? navigatorObserver,
-    List<Override>? overrides,
+    List<Override> overrides = const [],
   }) {
     Widget app = MaterialApp(
       navigatorObservers: [if (navigatorObserver != null) navigatorObserver],
       home: widget,
     );
-    if (overrides != null) {
-      app = ProviderScope(overrides: overrides, child: app);
-    }
+    app = ProviderScope(overrides: overrides, child: app);
     return pumpWidget(app);
   }
 }

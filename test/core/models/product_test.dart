@@ -16,7 +16,6 @@ void main() {
         'name': 'Pizza',
         'price': 10,
         'category': 'Food',
-        'imagePath': '/path/to/image',
       };
       expect(Product.fromJson(json), pizza);
     });

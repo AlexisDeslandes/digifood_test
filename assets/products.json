@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Pizza",
+    "price": 10,
+    "category": "Food"
+  },
+  {
+    "name": "Burger",
+    "price": 8,
+    "category": "Food"
+  },
+  {
+    "name": "Pasta",
+    "price": 6.5,
+    "category": "Food"
+  },
+  {
+    "name": "Shoes",
+    "price": 60,
+    "category": "Sport"
+  },
+  {
+    "name": "Shirt",
+    "price": 20,
+    "category": "Sport"
+  },
+  {
+    "name": "Short",
+    "price": 30,
+    "category": "Sport"
+  },
+  {
+    "name": "Pull",
+    "price": 80,
+    "category": "Sport"
+  },
+  {
+    "name": "Watch",
+    "price": 300,
+    "category": "Sport"
+  }
+]

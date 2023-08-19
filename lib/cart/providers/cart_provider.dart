@@ -32,3 +32,11 @@ class Cart extends _$Cart {
     };
   }
 }
+
+/// Provider that return the product quantity from name of product.
+final productQuantity = Provider.autoDispose.family<int, String>(
+  (ref, arg) {
+    final cart = ref.watch(cartProvider);
+    return cart[arg] ?? 0;
+  },
+);

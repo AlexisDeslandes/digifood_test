@@ -4,9 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Widget to add or reduce [product] from cart.
+/// Connected to productQuantity provider to get quantity.
 class PurchasableProductWidget extends ConsumerWidget {
+  /// default constructor.
+  const PurchasableProductWidget({required this.product, super.key});
+
+  /// Product that will be added.
+  final Product product;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quantity = ref.watch(productQuantity(product.name));
+    return PurchasableProductWidgetSkeleton(
+      product: product,
+      quantity: quantity,
+    );
+  }
+}
+
+/// Widget skeleton to add or reduce [product] from cart.
+@visibleForTesting
+class PurchasableProductWidgetSkeleton extends ConsumerWidget {
   /// Default constructor.
-  const PurchasableProductWidget({
+  const PurchasableProductWidgetSkeleton({
     required this.product,
     required this.quantity,
     super.key,
@@ -34,9 +54,9 @@ class PurchasableProductWidget extends ConsumerWidget {
               children: [
                 Text(
                   productName,
-                  style: Theme.of(context).textTheme.displaySmall,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                Text('Unité: ${product.price} €'),
+                Text('Unit: ${product.price} €'),
               ],
             ),
             Expanded(

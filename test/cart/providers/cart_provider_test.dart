@@ -59,4 +59,13 @@ void main() {
       );
     });
   });
+
+  group('productQuantity', () {
+    testProvider(
+      'When cartProvider has 2 pizza, expect 2.',
+      provider: productQuantity(pizza.name),
+      overrides: [cartProvider.overrideWith(Cart2Pizza.new)],
+      expect: () => [2],
+    );
+  });
 }
