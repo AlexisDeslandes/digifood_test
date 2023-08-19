@@ -1,9 +1,10 @@
-import 'dart:math';
-
 import 'package:digifood_test/cart/cart.dart';
 import 'package:digifood_test/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Provider of product that is focused.
+final productFocusProvider = StateProvider<Product?>((ref) => null);
 
 /// Page that displays the products grouped by categories.
 /// Products can be added and removed.
@@ -13,7 +14,9 @@ class CartHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double maxWidth = min(MediaQuery.of(context).size.width, 600);
+    final maxWidth = context.shouldSplitScreen
+        ? leftScreenWidth
+        : MediaQuery.of(context).size.width;
     return Scaffold(
       body: Row(
         children: [
@@ -26,6 +29,7 @@ class CartHomePage extends ConsumerWidget {
               ],
             ),
           ),
+          const Expanded(child: _CartDetailProduct()),
         ],
       ),
     );
@@ -88,6 +92,28 @@ class CartHomeBody extends ConsumerWidget {
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 32)),
       ],
+    );
+  }
+}
+
+class _CartDetailProduct extends ConsumerWidget {
+  const _CartDetailProduct();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final product = ref.watch(productFocusProvider);
+    if (product == null) return const SizedBox();
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 24, left: 8),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            borderRadius: BorderRadius.circular(11),
+          ),
+          child: ProductDetailWidget(product: product),
+        ),
+      ),
     );
   }
 }

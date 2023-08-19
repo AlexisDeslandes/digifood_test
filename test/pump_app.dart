@@ -7,11 +7,15 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     NavigatorObserver? navigatorObserver,
     List<Override> overrides = const [],
+    Size? size,
   }) {
     Widget app = MaterialApp(
       navigatorObservers: [if (navigatorObserver != null) navigatorObserver],
       home: widget,
     );
+    if (size != null) {
+      app = MediaQuery(data: MediaQueryData(size: size), child: app);
+    }
     app = ProviderScope(overrides: overrides, child: app);
     return pumpWidget(app);
   }

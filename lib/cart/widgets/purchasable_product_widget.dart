@@ -1,5 +1,5 @@
-import 'package:digifood_test/cart/providers/cart_provider.dart';
-import 'package:digifood_test/core/models/models.dart';
+import 'package:digifood_test/cart/cart.dart';
+import 'package:digifood_test/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,9 +16,11 @@ class PurchasableProductWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final quantity = ref.watch(productQuantity(product.name));
+    final isSelected = ref.watch(productFocusProvider) == product;
     return PurchasableProductWidgetSkeleton(
       product: product,
       quantity: quantity,
+      isSelected: isSelected,
     );
   }
 }
@@ -30,6 +32,7 @@ class PurchasableProductWidgetSkeleton extends ConsumerWidget {
   const PurchasableProductWidgetSkeleton({
     required this.product,
     required this.quantity,
+    this.isSelected = false,
     super.key,
   });
 
@@ -39,16 +42,28 @@ class PurchasableProductWidgetSkeleton extends ConsumerWidget {
   /// Current quantity of product in cart.
   final int quantity;
 
+  /// True when selected product is the current one.
+  final bool isSelected;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productName = product.name;
+    final colorScheme = Theme.of(context).colorScheme;
+    final color = isSelected
+        ? colorScheme.secondaryContainer
+        : colorScheme.surfaceVariant;
     return Card(
       elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: color,
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          context.go('/products/$productName');
+          if (context.shouldSplitScreen) {
+            final selected = isSelected ? null : product;
+            ref.read(productFocusProvider.notifier).state = selected;
+          } else {
+            context.go('/products/$productName');
+          }
         },
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -1,4 +1,5 @@
 import 'package:digifood_test/cart/cart.dart';
+import 'package:digifood_test/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -51,6 +52,19 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.byType(PurchasableProductWidget), findsWidgets);
+    });
+
+    testWidgets('When product is focused, render a ProductDetailWidget.',
+        (tester) async {
+      await tester.pumpApp(
+        const CartHomePage(),
+        overrides: [
+          productFocusProvider.overrideWith((ref) => pizza),
+          fetchProductsProvider.overrideWith((ref) => [pizza]),
+        ],
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(ProductDetailWidget), findsOneWidget);
     });
   });
 }

@@ -41,8 +41,8 @@ class MockGoRouterProvider extends StatelessWidget {
   const MockGoRouterProvider({
     required this.goRouter,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The mock navigator used to mock navigation calls.
   final MockGoRouter goRouter;

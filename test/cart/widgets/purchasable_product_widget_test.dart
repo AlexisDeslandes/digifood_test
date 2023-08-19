@@ -65,21 +65,42 @@ void main() {
       });
     });
 
-    testWidgets('tap on widget should navigate to product detail.',
-        (tester) async {
-      final router = MockGoRouter();
-      await tester.pumpApp(
-        MockGoRouterProvider(
-          goRouter: router,
-          child: const PurchasableProductWidgetSkeleton(
+    group('tap on widget', () {
+      testWidgets('With little screen, it should navigate to product detail.',
+          (tester) async {
+        final router = MockGoRouter();
+        await tester.pumpApp(
+          MockGoRouterProvider(
+            goRouter: router,
+            child: const PurchasableProductWidgetSkeleton(
+              product: pizza,
+              quantity: 0,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(find.byType(PurchasableProductWidgetSkeleton));
+        verify(router.go('/products/Pizza'));
+      });
+
+      testWidgets('With bigger screen, it should set product focus to pizza.',
+          (tester) async {
+        await tester.pumpApp(
+          const PurchasableProductWidgetSkeleton(
             product: pizza,
             quantity: 0,
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
-      await tester.tap(find.byType(PurchasableProductWidgetSkeleton));
-      verify(router.go('/products/Pizza'));
+          size: const Size.fromWidth(1000),
+          overrides: [productFocusProvider.overrideWith((ref) => null)],
+        );
+        await tester.pumpAndSettle();
+        final context =
+            tester.element(find.byType(PurchasableProductWidgetSkeleton));
+        final providerContainer = ProviderScope.containerOf(context);
+        expect(providerContainer.read(productFocusProvider), null);
+        await tester.tap(find.byType(PurchasableProductWidgetSkeleton));
+        expect(providerContainer.read(productFocusProvider), pizza);
+      });
     });
   });
 
