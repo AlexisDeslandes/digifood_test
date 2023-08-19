@@ -51,15 +51,35 @@ void main() {
         final cart = CartMock();
         await tester.pumpApp(
           overrides: [cartProvider.overrideWith(() => cart)],
-          const PurchasableProductWidgetSkeleton(
-            product: pizza,
-            quantity: 0,
+          MockGoRouterProvider(
+            goRouter: MockGoRouter(),
+            child: const PurchasableProductWidgetSkeleton(
+              product: pizza,
+              quantity: 0,
+            ),
           ),
         );
         await tester.pumpAndSettle();
         await tester.tap(find.byIcon(Icons.remove));
         verifyNever(cart.reduceProduct('Pizza'));
       });
+    });
+
+    testWidgets('tap on widget should navigate to product detail.',
+        (tester) async {
+      final router = MockGoRouter();
+      await tester.pumpApp(
+        MockGoRouterProvider(
+          goRouter: router,
+          child: const PurchasableProductWidgetSkeleton(
+            product: pizza,
+            quantity: 0,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(PurchasableProductWidgetSkeleton));
+      verify(router.go('/products/Pizza'));
     });
   });
 

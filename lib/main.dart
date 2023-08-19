@@ -1,10 +1,31 @@
 import 'package:digifood_test/cart/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
+
+final _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (_, __) {
+        return const CartHomePage();
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'products/:name',
+          builder: (BuildContext context, GoRouterState state) {
+            final name = state.pathParameters['name']!;
+            return ProductDetailPage(name: name);
+          },
+        ),
+      ],
+    ),
+  ],
+);
 
 /// My app
 class MyApp extends StatelessWidget {
@@ -13,8 +34,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'Digifood test',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.green,
@@ -22,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const CartHomePage(),
+      routerConfig: _router,
     );
   }
 }

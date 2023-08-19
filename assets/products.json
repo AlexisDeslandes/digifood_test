@@ -12,7 +12,8 @@
   {
     "name": "Pasta",
     "price": 6.5,
-    "category": "Food"
+    "category": "Food",
+    "description": "Very tasty pasta !"
   },
   {
     "name": "Shoes",
