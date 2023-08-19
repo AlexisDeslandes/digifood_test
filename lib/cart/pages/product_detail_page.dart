@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:digifood_test/cart/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +14,7 @@ class ProductDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final double maxWidth = min(MediaQuery.of(context).size.width, 600);
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final product = ref
@@ -61,7 +64,15 @@ class ProductDetailPage extends ConsumerWidget {
         backgroundColor: bgColor,
         elevation: 1,
       ),
-      body: body,
+      body: Row(
+        children: [
+          Container(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: body,
+          ),
+          const Expanded(child: SizedBox()),
+        ],
+      ),
     );
   }
 }

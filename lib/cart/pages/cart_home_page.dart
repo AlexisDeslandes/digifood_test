@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:digifood_test/cart/cart.dart';
 import 'package:digifood_test/core/core.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +13,19 @@ class CartHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(
-      body: Column(
+    final double maxWidth = min(MediaQuery.of(context).size.width, 600);
+    return Scaffold(
+      body: Row(
         children: [
-          Expanded(child: CartHomeBody()),
-          CartSynthesis(),
+          Container(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: const Column(
+              children: [
+                Expanded(child: CartHomeBody()),
+                CartSynthesis(),
+              ],
+            ),
+          ),
         ],
       ),
     );
