@@ -1,4 +1,5 @@
 import 'package:digifood_test/cart/cart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_test/riverpod_test.dart';
 
@@ -67,5 +68,18 @@ void main() {
       overrides: [cartProvider.overrideWith(Cart2Pizza.new)],
       expect: () => [2],
     );
+  });
+
+  group('productsTotal', () {
+    test('With 2 pizza & 1 burger, productsTotal should be 28.', () {
+      final container = ProviderContainer(
+        overrides: [
+          fetchProductsProvider.overrideWith((ref) => [pizza, burger]),
+          cartProvider.overrideWith(Cart2Pizza1Burger.new),
+        ],
+      );
+      final value = container.read(productsTotalProvider).value!;
+      expect(value, 28);
+    });
   });
 }

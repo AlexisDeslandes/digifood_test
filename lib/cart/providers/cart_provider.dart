@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+import 'package:digifood_test/cart/cart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_provider.g.dart';
@@ -40,3 +42,16 @@ final productQuantity = Provider.autoDispose.family<int, String>(
     return cart[arg] ?? 0;
   },
 );
+
+/// Provider that return the total price of the cart.
+@riverpod
+AsyncValue<double> productsTotal(ProductsTotalRef ref) {
+  final products = ref.read(fetchProductsProvider);
+  final cart = ref.watch(cartProvider);
+  return products.whenData((value) {
+    return value.map((e) {
+      final quantity = cart[e.name] ?? 0;
+      return e.price * quantity;
+    }).sum;
+  });
+}

@@ -12,7 +12,12 @@ class CartHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const Scaffold(
-      body: CartHomeBody(),
+      body: Column(
+        children: [
+          Expanded(child: CartHomeBody()),
+          CartSynthesis(),
+        ],
+      ),
     );
   }
 }

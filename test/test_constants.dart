@@ -15,3 +15,10 @@ class Cart2Pizza extends Cart {
     return {pizza.name: 2};
   }
 }
+
+class Cart2Pizza1Burger extends Cart {
+  @override
+  Map<String, int> build() {
+    return {pizza.name: 2, burger.name: 1};
+  }
+}

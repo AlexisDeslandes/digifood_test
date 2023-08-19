@@ -15,6 +15,7 @@ void main() {
         overrides: [
           productsByCategorySortedProvider
               .overrideWithValue(const AsyncValue.loading()),
+          fetchProductsProvider.overrideWith((_) => []),
         ],
       );
       await tester.pumpAndSettle();
@@ -28,6 +29,7 @@ void main() {
           productsByCategorySortedProvider.overrideWithValue(
             const AsyncValue.error('err', StackTrace.empty),
           ),
+          fetchProductsProvider.overrideWith((_) => []),
         ],
       );
       await tester.pumpAndSettle();
@@ -44,6 +46,7 @@ void main() {
               ('Food', [pizza]),
             ]),
           ),
+          fetchProductsProvider.overrideWith((_) => []),
         ],
       );
       await tester.pumpAndSettle();
